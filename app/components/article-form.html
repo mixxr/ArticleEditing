@@ -1,0 +1,35 @@
+<nav class="navbar navbar-light bg-faded navbar-fixed-top">
+  <div class="container">
+    <label for="author">Autore Articolo:</label>
+    <input name="author" type="text" class="" [(ngModel)]="author">
+    <label for="author">Data Creazione:</label>
+    <span>{{model.createdOn | date}}</span>
+    <button class="btn btn-primary pull-right" (click)="onSave()">Salva Articolo</button>
+    <button class="btn btn-success pull-right" (click)="onNewSection()">Aggiungi Sezione</button>
+  </div>
+</nav>
+<div class="container top-margin">
+    <div class="row bottom-line">
+        <h2 class="col-xs-12"><b>{{listTitle}}</b></h2>
+    </div>
+    <div dnd-sortable-container [sortableData]="model.sections">
+        <div *ngFor="let item of getSections(); let i = index" [ngClass]="{'row':true,'bottom-right':true,'odd':(i%2===0)}">
+            <label class="col-xs-2">Titolo Sezione</label>
+            <input class="col-xs-6" type="text" [(ngModel)]="item.title">
+            <div class="col-xs-4">
+                <button class="btn btn-sm btn-danger" (click)="onRemoveSection(i)"><span class="fa fa-trash-o"></span></button>
+                <button class="btn btn-sm btn-warning" (click)="onCopySection(i)"><span class="fa fa-files-o"></span></button>
+                <button class="btn btn-sm btn-default" (click)="onUp(i)"><span class="fa fa-arrow-up"></span></button>
+                <button class="btn btn-sm btn-default" (click)="onDown(i)"><span class="fa fa-arrow-down"></span></button>
+                <button class="btn btn-sm btn-default" dnd-sortable [sortableIndex]="i"><span class="fa fa-hand-paper-o"></span></button>
+            </div>
+            <div >
+            <textarea [(ngModel)]="item.body" rows="10" class="col-xs-12" (ngModelChange)="onSectionChange(i,$event)"></textarea>
+            </div>
+            <div class="col-xs-12">
+            <i>#parole</i>:{{item.nw}}, <i>#caratteri:</i>{{item.nc}}
+            </div>
+            
+        </div>
+    </div> <!-- DnD -->
+</div>
